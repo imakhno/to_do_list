@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | To-Do</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="register-container">
+    <h2>Register</h2>
+    <form action="/register" method="post">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="username" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Register</button>
+        <div class="errors" th:if="${errorRegister}" th:text="${errorRegister}"></div>
+    </form>
+
+    <p>Already have an account? <a href="/auth">Login</a></p>
+</div>
+</body>
+</html>

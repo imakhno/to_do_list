@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 th:text="'Your To-Do List, ' + ${user.name}"></h1>
+        <p>
+            <a class="logout-btn" href="/logout">Logout</a>
+        </p>
+        <form action="/add-new-task" method="post" id="new-task-form">
+            <input name="name" type="text" id="new-task-input" placeholder="What needs to be done?" required>
+            <button type="submit">Add</button>
+        </form>
+    </header>
+
+    <ul id="task-list">
+        <li th:each="task : ${tasks}">
+            <!-- ID задачи для идентификации на сервере -->
+            <form action="/update-task-status" method="post">
+                <input type="hidden" name="taskId" th:value="${task.id}"/>
+
+                <!-- Чекбокс с автоотправкой формы -->
+                <input type="checkbox"
+                       name="done"
+                       th:checked="${task.done}"
+                       value="true"
+                       class="task-checkbox"
+                       onchange="this.form.submit();"/>
+
+                <!-- Скрытое поле, отправляемое в случае снятия чекбокса -->
+                <input type="hidden" name="done" value="false"/>
+            </form>
+
+            <!-- Метка задачи -->
+            <label th:classappend="${task.done} ? 'done' : ''"
+                   th:text="${task.name}"></label>
+
+            <!-- Кнопка удаления -->
+            <form method="post" action="/delete-task">
+                <input type="hidden" name="taskId" th:value="${task.id}"/>
+                <button class="delete-btn" th:data-task-id="${task.id}">Delete</button>
+            </form>
+        </li>
+    </ul>
+
+
+
+
+</div>
+
+<script src="/scripts/script.js"></script>
+<script src="/scripts/handler.js"></script>
+</body>
+</html>
